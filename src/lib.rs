@@ -271,7 +271,7 @@ impl OptUdeps {
         }
 
         config.configure(
-            self.verbose.max(0).min(2) as u32,
+            self.verbose.clamp(0, 2) as u32,
             self.quiet,
             self.color.as_deref(),
             self.frozen,
@@ -681,11 +681,11 @@ impl Executor for Exec {
                 bt.relevant_cmd_infos.push(cmd_info.clone());
             }
             assert!(
-                !(!is_path && is_workspace_member),
+                is_path || !is_workspace_member,
                 "`{}` is a workspace member but is not from a filesystem path",
                 id,
             );
-            if (!cmd_info.cap_lints_allow) != is_path {
+            if cmd_info.cap_lints_allow == is_path {
                 on_stderr_line(&format!(
                     "{} (!cap_lints_allow)={} differs from is_path={} for id={}",
                     if bt.supports_color {

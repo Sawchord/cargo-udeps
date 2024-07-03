@@ -21,7 +21,7 @@ fn set_rustc_env() -> CargoResult<()> {
     let toolchain =
         env::var("CARGO_UDEPS_TEST_TOOLCHAIN").unwrap_or_else(|_| DEFAULT_TOOLCHAIN.to_owned());
     let Output { status, stdout, .. } = Command::new("rustup")
-        .args(&["which", "rustc"])
+        .args(["which", "rustc"])
         .env("RUSTUP_TOOLCHAIN", &toolchain)
         .output()?;
     if !status.success() {
