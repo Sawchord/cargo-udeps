@@ -1,11 +1,8 @@
 mod runner;
-
+use crate::runner::Runner;
 use anyhow::anyhow;
 use cargo::CargoResult;
 use pretty_assertions::assert_eq;
-
-use crate::runner::Runner;
-
 use std::{error, fmt};
 
 #[derive(Debug)]

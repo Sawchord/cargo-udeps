@@ -20,7 +20,7 @@ use cargo::{
     CargoResult, CliError, CliResult,
 };
 use cargo_util::ProcessBuilder;
-use clap::{ArgAction, ArgMatches, CommandFactory, Parser};
+use clap::{ArgAction, ArgMatches, CommandFactory, FromArgMatches, Parser};
 use nu_ansi_term::Color;
 use serde::{Deserialize, Serialize};
 use std::{
@@ -42,8 +42,8 @@ pub fn run<I: IntoIterator<Item = OsString>, W: Write>(
     stdout: W,
 ) -> CliResult {
     let args = args.into_iter().collect::<Vec<_>>();
-    let Opt::Udeps(opt) = Opt::try_parse_from(&args)?;
     let clap_matches = Opt::command().try_get_matches_from(args)?;
+    let Opt::Udeps(opt) = Opt::from_arg_matches(&clap_matches)?;
     match opt.run(
         config,
         stdout,
